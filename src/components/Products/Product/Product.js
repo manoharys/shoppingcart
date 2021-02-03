@@ -2,15 +2,19 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./Product.module.css";
 
-const Product = () => {
+const Product = ({ product }) => {
   return (
     <div className={styles.product}>
-      <img className={styles.product__image} src="" alt="" />
+      <img
+        className={styles.product__image}
+        src={product.image}
+        alt={product.title}
+      />
 
       <div className={styles.product__details}>
-        <p className={styles.details__title}>Title</p>
-        <p className={styles.details__desc}>Description</p>
-        <p className={styles.details__price}>$ 10.00</p>
+        <p className={styles.details__title}>{product.title}</p>
+        <p className={styles.details__desc}>{product.description}</p>
+        <p className={styles.details__price}>$ {product.price}</p>
       </div>
 
       <div className={styles.product__buttons}>
