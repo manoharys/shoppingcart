@@ -37,21 +37,51 @@ const initialState = {
 const shopReducer = (state = initialState, action) => {
   switch (action.type) {
     case ACTIONS.ADD_TO_CART: {
-      return {};
+      //get the product data
+      const cartData = state.products.find(
+        (product) => product.id === action.payload.id
+      );
+      //Check wheather item already exists
+      const inCart = state.cart.find((item) =>
+        item.id === action.payload.id ? true : false
+      );
+
+      return {
+        ...state,
+        cart: inCart
+          ? state.cart.map((item) =>
+              item.id === action.payload.id
+                ? { ...item, qty: item.qty + 1 }
+                : item
+            )
+          : [...state.cart, { ...cartData, qty: 1 }],
+      };
     }
     case ACTIONS.REMOVE_FROM_CART: {
-      return {};
+      return {
+        ...state,
+        cart: state.cart.filter((item) => item.id !== action.payload.id),
+      };
     }
     case ACTIONS.ADJUST_QTY: {
-      return {};
+      return {
+        ...state,
+        cart: state.cart.map((item) =>
+          item.id === action.payload.id
+            ? { ...item, qty: item.qty + action.payload.qty }
+            : item
+        ),
+      };
     }
     case ACTIONS.LOAD_CURRENT_ITEM: {
-      return {};
+      return {
+        ...state,
+        currentItem: action.payload,
+      };
     }
     default:
       return state;
   }
 };
 
-
-export default shopReducer
+export default shopReducer;
